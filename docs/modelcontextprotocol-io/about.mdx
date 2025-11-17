@@ -55,6 +55,35 @@ In addition to a public REST API, the MCP Registry defines an [OpenAPI spec](htt
 
 We expect that many downstream aggregators will implement this interface. Private MCP registries can implement it as well to benefit from existing host application support.
 
+Note that the official MCP Registry codebase is **not** designed for self-hosting, and the registry maintainers cannot provide support for this use case. If you choose to fork it, you would need to maintain and operate it independently.
+
 ### Relationship with MCP Host Applications
 
 The MCP Registry is not intended to be directly consumed by host applications. Instead, host applications should consume other MCP registries, such as downstream marketplaces, via a REST API conforming to the official MCP Registry's OpenAPI spec.
+
+## Trust and Security
+
+### Verifying Server Authenticity
+
+The MCP Registry uses namespace authentication to ensure that servers come from their claimed sources. Server names follow a reverse DNS format (like `io.github.username/server` or `com.example/server`) that ties them to verified GitHub accounts or domains.
+
+This namespace system ensures that only the legitimate owner of a GitHub account or domain can publish servers under that namespace, providing trust and accountability in the ecosystem. For details on authentication methods, see the [Authentication guide](./authentication.mdx).
+
+### Security Scanning
+
+The MCP Registry delegates security scanning to:
+
+- **Underlying package registries** — npm, PyPI, Docker Hub, and other package registries perform their own security scanning and vulnerability detection.
+- **Downstream aggregators** — MCP Registry aggregators and marketplaces can implement additional security checks, ratings, or curation.
+
+The MCP Registry focuses on namespace authentication and metadata hosting, while relying on the broader ecosystem for security scanning of actual server code.
+
+### Spam Prevention
+
+The MCP Registry uses multiple mechanisms to prevent spam:
+
+- **Namespace authentication requirements** — Publishers must verify ownership of their namespace through GitHub, DNS, or HTTP challenges, preventing arbitrary spam submissions.
+- **Character limits and validation** — Free-form fields have strict character limits and regex validation to prevent abuse.
+- **Manual takedown** — The registry maintainers can manually remove spam or malicious servers. See the [Moderation Policy](./moderation-policy.mdx) for details on what content is removed.
+
+Future spam prevention measures under consideration include stricter rate limiting, AI-based spam detection, and community reporting capabilities.
