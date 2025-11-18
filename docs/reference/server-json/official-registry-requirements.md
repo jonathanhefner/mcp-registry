@@ -10,7 +10,6 @@ While the [generic server.json format](./generic-server-json.md) defines the bas
 
 - **Namespace authentication** - Servers are published under appropriate namespaces
 - **Package ownership verification** - Publishers actually control referenced packages
-- **Remote server URL match** - Remote server base urls match namespaces
 - **Restricted registry base urls** - Packages are from trusted public registries
 - **`_meta` namespace restrictions** - Restricted to `publisher` key only
 
@@ -25,10 +24,6 @@ See the [publishing guide](../../guides/publishing/publish-server.md) for authen
 All packages must include metadata proving the publisher owns them. This prevents impersonation and ensures authenticity (see more reasoning in [#96](https://github.com/modelcontextprotocol/registry/issues/96)).
 
 For detailed verification requirements for each registry type, see the [publishing guide](../../guides/publishing/publish-server.md).
-
-## Remote Server URL Match
-
-Remote servers must use URLs that match the publisher's domain from their namespace. For example, `com.example/server` can only use remote URLs on `example.com` or its subdomains.
 
 ## Restricted Registry Base URLs
 
